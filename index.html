@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><p1>Psychic-Game</p1></title>
+<!--<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+ -->
+	<style>
+	</style>
+
+</head>
+
+<body>
+	<header><h1>The Psychic Game</h1></header>
+
+			<h4>Guess what letter I'm thinking of</h4>
+			<h4>Wins: <span id= "winTally"> </span></h4>
+			<h4>Losses:<span id= "lossTally"></span> </h4>
+			<h4>Guesses Left:<span id= "remainderPlaceholder">9</span> </h4>
+			<h4>Your Guesses so far:<span id="guessesPlaceholder"></span> </h4>
+
+    <script type="text/javascript">
+
+    //computer generates random letter 
+    	var letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+
+    	var randomLetter = letters[Math.floor(Math.random() * letters.length)]
+
+    //variables to be linked to scoreboard
+    	var wins = 0;
+      	var losses = 0;
+      	var guessesLeft = 9;
+      	var guessesSoFar= "";
+
+	//attempt to reset guessesSoFar and GuessesLeft after winning or losing
+      	function reset(){
+      	guessesLeft = 9;
+      	guessesSoFar = "";
+      	var $guessesSoFar = document.getElementById("guessesPlaceholder");
+		$guessesSoFar.innerHTML = losses;
+      	} 
+
+
+// When the user presses a key, it will run the following function...
+document.onkeyup = function(event) {
+
+// Determine which key was pressed-- user enters letter
+	var userGuess = event.key;
+
+
+		//winner- guesses letter correctly on first try, wins increase by 1, everything resets and start again
+		if (userGuess === randomLetter){
+				wins++;
+				reset();
+				console.log("you won")
+				var winElement = document.getElementById("winTally");
+				winElement.innerHTML = wins;
+
+		//letter is not correct, continues guessing
+		} else {
+			guessesSoFar = guessesSoFar + event.key;
+			guessesLeft--;
+			console.log("you guessed incorrect");
+			
+			var guessesElement = document.getElementById("guessesPlaceholder");
+			guessesElement.innerHTML = guessesSoFar;
+
+			var triesLeft = document.getElementById("remainderPlaceholder");
+			triesLeft.innerHTML = guessesLeft;
+
+		//if number of allowed guesses expire, losses go up by one and guessesSoFar and guessesLeft return to default
+			 	if (guessesLeft < 1 ){
+					losses++;
+					reset()
+					console.log("you lost");
+					var lossElement = document.getElementById("lossTally");
+					lossElement.innerHTML = losses;
+					}
+
+		}
+		
+}
+	</script>
+
+</body>
+
+</html>
